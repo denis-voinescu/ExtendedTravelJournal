@@ -12,9 +12,9 @@ tags:
   - name: Journals
 
 paths:
-  /travel-journal/users:
+  /travel-journal/api/v1/users:
     get:
-      tags: [ Users ]
+      tags: [Users]
       summary: Get all users
       operationId: getAllUsers
       responses:
@@ -28,7 +28,7 @@ paths:
                   $ref: '#/components/schemas/User'
 
     post:
-      tags: [ Users ]
+      tags: [Users]
       summary: Create user
       operationId: createUser
       requestBody:
@@ -45,9 +45,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
 
-  /travel-journal/users/{id}:
+  /travel-journal/api/v1/users/{id}:
     get:
-      tags: [ Users ]
+      tags: [Users]
       summary: Get user by id
       operationId: getUserById
       parameters:
@@ -66,7 +66,7 @@ paths:
                 $ref: '#/components/schemas/User'
 
     put:
-      tags: [ Users ]
+      tags: [Users]
       summary: Replace user by id
       operationId: putUserById
       parameters:
@@ -91,7 +91,7 @@ paths:
                 $ref: '#/components/schemas/User'
 
     patch:
-      tags: [ Users ]
+      tags: [Users]
       summary: Patch user by id
       operationId: patchUserById
       parameters:
@@ -116,7 +116,7 @@ paths:
                 $ref: '#/components/schemas/User'
 
     delete:
-      tags: [ Users ]
+      tags: [Users]
       summary: Delete user by id
       operationId: deleteUserById
       parameters:
@@ -130,9 +130,9 @@ paths:
         '204':
           description: User deleted
 
-  /travel-journal/journals:
+  /travel-journal/api/v1/journals:
     get:
-      tags: [ Journals ]
+      tags: [Journals]
       summary: Get all journals
       operationId: getAllJournals
       responses:
@@ -146,7 +146,7 @@ paths:
                   $ref: '#/components/schemas/Journal'
 
     post:
-      tags: [ Journals ]
+      tags: [Journals]
       summary: Create journal
       operationId: createJournal
       requestBody:
@@ -163,9 +163,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Journal'
 
-  /travel-journal/journals/{id}:
+  /travel-journal/api/v1/journals/{id}:
     get:
-      tags: [ Journals ]
+      tags: [Journals]
       summary: Get journal by id
       operationId: getJournalById
       parameters:
@@ -184,7 +184,7 @@ paths:
                 $ref: '#/components/schemas/Journal'
 
     put:
-      tags: [ Journals ]
+      tags: [Journals]
       summary: Replace journal by id
       operationId: putJournalById
       parameters:
@@ -209,7 +209,7 @@ paths:
                 $ref: '#/components/schemas/Journal'
 
     patch:
-      tags: [ Journals ]
+      tags: [Journals]
       summary: Patch journal by id
       operationId: patchJournalById
       parameters:
@@ -234,7 +234,7 @@ paths:
                 $ref: '#/components/schemas/Journal'
 
     delete:
-      tags: [ Journals ]
+      tags: [Journals]
       summary: Delete journal by id
       operationId: deleteJournalById
       parameters:
@@ -252,11 +252,12 @@ components:
   schemas:
     User:
       type: object
-      required: [ id, name, surname, email, password ]
+      required: [name, surname, email, password]
       properties:
         id:
           type: integer
           format: int32
+          readOnly: true
         name:
           type: string
         surname:
@@ -268,7 +269,7 @@ components:
 
     UserPutDto:
       type: object
-      required: [ name, surname ]
+      required: [name, surname]
       properties:
         name:
           type: string
@@ -285,15 +286,16 @@ components:
 
     Visibility:
       type: string
-      enum: [ PRIVATE, FRIENDS, PUBLIC ]
+      enum: [PRIVATE, FRIENDS, PUBLIC]
 
     Journal:
       type: object
-      required: [ id, title, description, startDate, endDate, visibility ]
+      required: [title, description, startDate, endDate, visibility]
       properties:
         id:
           type: integer
           format: int32
+          readOnly: true
         title:
           type: string
         description:
@@ -309,7 +311,7 @@ components:
 
     JournalPutDto:
       type: object
-      required: [ title, description, startDate, endDate, visibility ]
+      required: [title, description, startDate, endDate, visibility]
       properties:
         title:
           type: string
