@@ -1,0 +1,341 @@
+openapi: 3.0.3
+info:
+  title: Travel Journal Contract
+  version: 1.0.0
+  description: The Travel Journal YAML spec
+
+servers:
+  - url: http://localhost:8080
+
+tags:
+  - name: Users
+  - name: Journals
+
+paths:
+  /travel-journal/users:
+    get:
+      tags: [ Users ]
+      summary: Get all users
+      operationId: getAllUsers
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+    post:
+      tags: [ Users ]
+      summary: Create user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /travel-journal/users/{id}:
+    get:
+      tags: [ Users ]
+      summary: Get user by id
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+    put:
+      tags: [ Users ]
+      summary: Replace user by id
+      operationId: putUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPutDto'
+      responses:
+        '200':
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+    patch:
+      tags: [ Users ]
+      summary: Patch user by id
+      operationId: patchUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPatchDto'
+      responses:
+        '200':
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+    delete:
+      tags: [ Users ]
+      summary: Delete user by id
+      operationId: deleteUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: User deleted
+
+  /travel-journal/journals:
+    get:
+      tags: [ Journals ]
+      summary: Get all journals
+      operationId: getAllJournals
+      responses:
+        '200':
+          description: List of journals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Journal'
+
+    post:
+      tags: [ Journals ]
+      summary: Create journal
+      operationId: createJournal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Journal'
+      responses:
+        '201':
+          description: Journal created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journal'
+
+  /travel-journal/journals/{id}:
+    get:
+      tags: [ Journals ]
+      summary: Get journal by id
+      operationId: getJournalById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Journal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journal'
+
+    put:
+      tags: [ Journals ]
+      summary: Replace journal by id
+      operationId: putJournalById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JournalPutDto'
+      responses:
+        '200':
+          description: Updated journal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journal'
+
+    patch:
+      tags: [ Journals ]
+      summary: Patch journal by id
+      operationId: patchJournalById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JournalPatchDto'
+      responses:
+        '200':
+          description: Updated journal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journal'
+
+    delete:
+      tags: [ Journals ]
+      summary: Delete journal by id
+      operationId: deleteJournalById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: Journal deleted
+
+components:
+  schemas:
+    User:
+      type: object
+      required: [ id, name, surname, email, password ]
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        surname:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+
+    UserPutDto:
+      type: object
+      required: [ name, surname ]
+      properties:
+        name:
+          type: string
+        surname:
+          type: string
+
+    UserPatchDto:
+      type: object
+      properties:
+        name:
+          type: string
+        surname:
+          type: string
+
+    Visibility:
+      type: string
+      enum: [ PRIVATE, FRIENDS, PUBLIC ]
+
+    Journal:
+      type: object
+      required: [ id, title, description, startDate, endDate, visibility ]
+      properties:
+        id:
+          type: integer
+          format: int32
+        title:
+          type: string
+        description:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        visibility:
+          $ref: '#/components/schemas/Visibility'
+
+    JournalPutDto:
+      type: object
+      required: [ title, description, startDate, endDate, visibility ]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        visibility:
+          $ref: '#/components/schemas/Visibility'
+
+    JournalPatchDto:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        visibility:
+          $ref: '#/components/schemas/Visibility'
