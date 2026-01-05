@@ -167,6 +167,7 @@
                                 <useTags>true</useTags>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                             </configOptions>
+
                         </configuration>
                     </execution>
                 </executions>

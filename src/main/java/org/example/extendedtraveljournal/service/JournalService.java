@@ -3,7 +3,9 @@ package org.example.extendedtraveljournal.service;
 import org.example.extendedtraveljournal.exception.ResourceNotFoundException;
 import org.example.extendedtraveljournal.mapper.JournalMapper;
 import org.example.extendedtraveljournal.model.JournalEntity;
+import org.example.extendedtraveljournal.model.UserEntity;
 import org.example.extendedtraveljournal.repository.JournalRepository;
+import org.example.extendedtraveljournal.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.openapitools.model.Journal;
 import org.openapitools.model.JournalPatchDto;
@@ -16,17 +18,30 @@ public class JournalService {
 
   private final JournalRepository journalRepository;
   private final JournalMapper journalMapper;
+  private final UserRepository userRepository;
 
-  public JournalService(JournalRepository journalRepository, JournalMapper journalMapper) {
+  public JournalService(
+      JournalRepository journalRepository,
+      JournalMapper journalMapper,
+      UserRepository userRepository) {
     this.journalRepository = journalRepository;
     this.journalMapper = journalMapper;
+    this.userRepository = userRepository;
   }
 
   public Journal create(Journal journal) {
-    JournalEntity journalEntity = journalMapper.toEntity(journal);
-    JournalEntity savedJournalEntity = journalRepository.save(journalEntity);
-    Journal journalDto = journalMapper.toDto(savedJournalEntity);
-    return journalDto;
+    Integer userId = journal.getUserId();
+    if (userId == null) throw new IllegalArgumentException("userId is required");
+
+    UserEntity user =
+        userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(userId));
+
+    JournalEntity entity = journalMapper.toEntity(journal);
+    entity.setId(null);
+    entity.setUser(user);
+
+    JournalEntity saved = journalRepository.save(entity);
+    return journalMapper.toDto(saved);
   }
 
   public List<Journal> getAll() {

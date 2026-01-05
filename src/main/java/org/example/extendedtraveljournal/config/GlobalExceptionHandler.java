@@ -134,4 +134,15 @@ public class GlobalExceptionHandler {
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
   }
+
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<Error> handleIllegalArgument(IllegalArgumentException ex) {
+    Error err = new Error();
+    err.setCode("ILLEGAL_ARGUMENT");
+    err.setMessage(ex.getMessage());
+    err.setStatus(HttpStatus.BAD_REQUEST.value());
+    err.setTimestamp(OffsetDateTime.now());
+
+    return ResponseEntity.badRequest().body(err);
+  }
 }

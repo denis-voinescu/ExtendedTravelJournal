@@ -10,11 +10,12 @@ servers:
 tags:
   - name: Users
   - name: Journals
+  - name: JournalEntries
 
 paths:
   /travel-journal/api/v1/users:
     get:
-      tags: [Users]
+      tags: [ Users ]
       summary: Get all users
       operationId: getAllUsers
       responses:
@@ -28,7 +29,7 @@ paths:
                   $ref: '#/components/schemas/User'
 
     post:
-      tags: [Users]
+      tags: [ Users ]
       summary: Create user
       operationId: createUser
       requestBody:
@@ -47,16 +48,14 @@ paths:
 
   /travel-journal/api/v1/users/{id}:
     get:
-      tags: [Users]
+      tags: [ Users ]
       summary: Get user by id
       operationId: getUserById
       parameters:
         - name: id
           in: path
           required: true
-          schema:
-            type: integer
-            format: int32
+          schema: { type: integer, format: int32 }
       responses:
         '200':
           description: User
@@ -66,16 +65,14 @@ paths:
                 $ref: '#/components/schemas/User'
 
     put:
-      tags: [Users]
+      tags: [ Users ]
       summary: Replace user by id
       operationId: putUserById
       parameters:
         - name: id
           in: path
           required: true
-          schema:
-            type: integer
-            format: int32
+          schema: { type: integer, format: int32 }
       requestBody:
         required: true
         content:
@@ -91,16 +88,14 @@ paths:
                 $ref: '#/components/schemas/User'
 
     patch:
-      tags: [Users]
+      tags: [ Users ]
       summary: Patch user by id
       operationId: patchUserById
       parameters:
         - name: id
           in: path
           required: true
-          schema:
-            type: integer
-            format: int32
+          schema: { type: integer, format: int32 }
       requestBody:
         required: true
         content:
@@ -116,23 +111,21 @@ paths:
                 $ref: '#/components/schemas/User'
 
     delete:
-      tags: [Users]
+      tags: [ Users ]
       summary: Delete user by id
       operationId: deleteUserById
       parameters:
         - name: id
           in: path
           required: true
-          schema:
-            type: integer
-            format: int32
+          schema: { type: integer, format: int32 }
       responses:
         '204':
           description: User deleted
 
   /travel-journal/api/v1/journals:
     get:
-      tags: [Journals]
+      tags: [ Journals ]
       summary: Get all journals
       operationId: getAllJournals
       responses:
@@ -146,7 +139,7 @@ paths:
                   $ref: '#/components/schemas/Journal'
 
     post:
-      tags: [Journals]
+      tags: [ Journals ]
       summary: Create journal
       operationId: createJournal
       requestBody:
@@ -165,16 +158,14 @@ paths:
 
   /travel-journal/api/v1/journals/{id}:
     get:
-      tags: [Journals]
+      tags: [ Journals ]
       summary: Get journal by id
       operationId: getJournalById
       parameters:
         - name: id
           in: path
           required: true
-          schema:
-            type: integer
-            format: int32
+          schema: { type: integer, format: int32 }
       responses:
         '200':
           description: Journal
@@ -184,16 +175,14 @@ paths:
                 $ref: '#/components/schemas/Journal'
 
     put:
-      tags: [Journals]
+      tags: [ Journals ]
       summary: Replace journal by id
       operationId: putJournalById
       parameters:
         - name: id
           in: path
           required: true
-          schema:
-            type: integer
-            format: int32
+          schema: { type: integer, format: int32 }
       requestBody:
         required: true
         content:
@@ -209,16 +198,14 @@ paths:
                 $ref: '#/components/schemas/Journal'
 
     patch:
-      tags: [Journals]
+      tags: [ Journals ]
       summary: Patch journal by id
       operationId: patchJournalById
       parameters:
         - name: id
           in: path
           required: true
-          schema:
-            type: integer
-            format: int32
+          schema: { type: integer, format: int32 }
       requestBody:
         required: true
         content:
@@ -234,90 +221,200 @@ paths:
                 $ref: '#/components/schemas/Journal'
 
     delete:
-      tags: [Journals]
+      tags: [ Journals ]
       summary: Delete journal by id
       operationId: deleteJournalById
       parameters:
         - name: id
           in: path
           required: true
-          schema:
-            type: integer
-            format: int32
+          schema: { type: integer, format: int32 }
       responses:
         '204':
           description: Journal deleted
 
+  /travel-journal/api/v1/journals/{journalId}/entries:
+    get:
+      tags: [ JournalEntries ]
+      summary: Get all entries for a journal
+      operationId: getAllJournalEntries
+      parameters:
+        - name: journalId
+          in: path
+          required: true
+          schema: { type: integer, format: int32 }
+      responses:
+        '200':
+          description: List of journal entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JournalEntry'
+
+    post:
+      tags: [ JournalEntries ]
+      summary: Add journal entry to a journal
+      operationId: createJournalEntry
+      parameters:
+        - name: journalId
+          in: path
+          required: true
+          schema: { type: integer, format: int32 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+      responses:
+        '201':
+          description: Journal entry created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+
+  /travel-journal/api/v1/journals/{journalId}/entries/{entryId}:
+    get:
+      tags: [ JournalEntries ]
+      summary: Get journal entry by id
+      operationId: getJournalEntryById
+      parameters:
+        - name: journalId
+          in: path
+          required: true
+          schema: { type: integer, format: int32 }
+        - name: entryId
+          in: path
+          required: true
+          schema: { type: integer, format: int32 }
+      responses:
+        '200':
+          description: Journal entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+
+    put:
+      tags: [ JournalEntries ]
+      summary: Replace journal entry
+      operationId: putJournalEntryById
+      parameters:
+        - name: journalId
+          in: path
+          required: true
+          schema: { type: integer, format: int32 }
+        - name: entryId
+          in: path
+          required: true
+          schema: { type: integer, format: int32 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JournalEntryPutDto'
+      responses:
+        '200':
+          description: Updated journal entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+
+    patch:
+      tags: [ JournalEntries ]
+      summary: Patch journal entry
+      operationId: patchJournalEntryById
+      parameters:
+        - name: journalId
+          in: path
+          required: true
+          schema: { type: integer, format: int32 }
+        - name: entryId
+          in: path
+          required: true
+          schema: { type: integer, format: int32 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JournalEntryPatchDto'
+      responses:
+        '200':
+          description: Updated journal entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+
+    delete:
+      tags: [ JournalEntries ]
+      summary: Delete journal entry
+      operationId: deleteJournalEntryById
+      parameters:
+        - name: journalId
+          in: path
+          required: true
+          schema: { type: integer, format: int32 }
+        - name: entryId
+          in: path
+          required: true
+          schema: { type: integer, format: int32 }
+      responses:
+        '204':
+          description: Journal entry deleted
+
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        status:
-          type: integer
-        timestamp:
-          type: string
-          format: date-time
-      required:
-        - code
-        - message
-        - status
-        - timestamp
-
     User:
       type: object
-      required: [name, surname, email, password]
+      required: [ name, surname, email, password ]
       properties:
         id:
           type: integer
           format: int32
           readOnly: true
-        name:
-          type: string
-        surname:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
+        name: { type: string }
+        surname: { type: string }
+        email: { type: string }
+        password: { type: string }
 
     UserPutDto:
       type: object
-      required: [name, surname]
+      required: [ name, surname ]
       properties:
-        name:
-          type: string
-        surname:
-          type: string
+        name: { type: string }
+        surname: { type: string }
 
     UserPatchDto:
       type: object
       properties:
-        name:
-          type: string
-        surname:
-          type: string
+        name: { type: string }
+        surname: { type: string }
 
     Visibility:
       type: string
-      enum: [PRIVATE, FRIENDS, PUBLIC]
+      enum: [ PRIVATE, FRIENDS, PUBLIC ]
 
     Journal:
       type: object
-      required: [title, description, startDate, endDate, visibility]
+      required: [ userId, title, description, startDate, endDate, visibility ]
       properties:
         id:
           type: integer
           format: int32
           readOnly: true
-        title:
-          type: string
-        description:
-          type: string
+        userId:
+          type: integer
+          format: int32
+          description: Owner user id
+        title: { type: string }
+        description: { type: string }
         startDate:
           type: string
           format: date
@@ -326,15 +423,21 @@ components:
           format: date
         visibility:
           $ref: '#/components/schemas/Visibility'
+        entries:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/JournalEntry'
 
     JournalPutDto:
       type: object
-      required: [title, description, startDate, endDate, visibility]
+      required: [ userId, title, description, startDate, endDate, visibility ]
       properties:
-        title:
-          type: string
-        description:
-          type: string
+        userId:
+          type: integer
+          format: int32
+        title: { type: string }
+        description: { type: string }
         startDate:
           type: string
           format: date
@@ -347,10 +450,11 @@ components:
     JournalPatchDto:
       type: object
       properties:
-        title:
-          type: string
-        description:
-          type: string
+        userId:
+          type: integer
+          format: int32
+        title: { type: string }
+        description: { type: string }
         startDate:
           type: string
           format: date
@@ -359,3 +463,54 @@ components:
           format: date
         visibility:
           $ref: '#/components/schemas/Visibility'
+
+    JournalEntry:
+      type: object
+      required: [ entryDate, title, content ]
+      properties:
+        id:
+          type: integer
+          format: int32
+          readOnly: true
+        journalId:
+          type: integer
+          format: int32
+          readOnly: true
+        entryDate:
+          type: string
+          format: date
+        title: { type: string }
+        content: { type: string }
+        mood:
+          type: string
+          nullable: true
+        weather:
+          type: string
+          nullable: true
+
+    JournalEntryPutDto:
+      type: object
+      required: [ entryDate, title, content ]
+      properties:
+        entryDate:
+          type: string
+          format: date
+        title: { type: string }
+        content: { type: string }
+        mood:
+          type: string
+        weather:
+          type: string
+
+    JournalEntryPatchDto:
+      type: object
+      properties:
+        entryDate:
+          type: string
+          format: date
+        title: { type: string }
+        content: { type: string }
+        mood:
+          type: string
+        weather:
+          type: string
