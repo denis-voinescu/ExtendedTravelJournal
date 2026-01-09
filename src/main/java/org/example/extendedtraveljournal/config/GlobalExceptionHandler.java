@@ -137,6 +137,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(IllegalArgumentException.class)
   public ResponseEntity<Error> handleIllegalArgument(IllegalArgumentException ex) {
+
     Error err = new Error();
     err.setCode("ILLEGAL_ARGUMENT");
     err.setMessage(ex.getMessage());
